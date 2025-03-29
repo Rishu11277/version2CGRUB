@@ -1,0 +1,6 @@
+sudo apt update && sudo apt install -y nasm qemu-system xorriso grub-common grub-pc-bin gcc
+nasm -f elf32 boot.s -o boot.o
+gcc -ffreestanding -m32 -c kernel.c -o kernel.o
+ld -m elf_i386 -T linker.ld -o iso/boot/boot.elf boot.o kernel.o
+grub-mkrescue -o my_os.iso iso/
+qemu-system-i386 -cdrom my_os.iso -m 256M -curses
